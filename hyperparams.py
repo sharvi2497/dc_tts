@@ -32,10 +32,16 @@ class Hyperparams:
     attention_win_size = 3
 
     # data
-    data = "/data/private/voice/LJSpeech-1.0"
+    #data = "/data/private/voice/LJSpeech-1.0"
+    data = "dataset"
     # data = "/data/private/voice/kate"
     test_data = 'harvard_sentences.txt'
-    vocab = "PE abcdefghijklmnopqrstuvwxyz'.?" # P: Padding, E: EOS.
+    #vocab = "PE abcdefghijklmnopqrstuvwxyz'.?" # P: Padding, E: EOS.
+    # The following won't work if we want to resume training from the
+    # pretrained models. In order for it to work we'd have to restart
+    # training from scratch:
+    vocab = "PE abcdefghijklmnopqrstuvwxyz'.?,;" # Added some extra expression
+    
     max_N = 180 # Maximum number of characters.
     max_T = 210 # Maximum number of mel frames.
 
