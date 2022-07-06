@@ -33,8 +33,7 @@ class Hyperparams:
 
     # data
     #data = "/data/private/voice/LJSpeech-1.0"
-    data = "dataset"
-    # data = "/data/private/voice/kate"
+    data = "dataset/welsh_english_male"
     test_data = 'harvard_sentences.txt'
     #vocab = "PE abcdefghijklmnopqrstuvwxyz'.?" # P: Padding, E: EOS.
     # The following won't work if we want to resume training from the
