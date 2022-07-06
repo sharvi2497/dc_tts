@@ -133,7 +133,7 @@ class Graph:
             # Summary
             self.merged = tf.summary.merge_all()
 
-
+            
 if __name__ == '__main__':
     # argument: 1 or 2. 1 for Text2mel, 2 for SSRN.
     num = int(sys.argv[1])
@@ -141,10 +141,15 @@ if __name__ == '__main__':
     g = Graph(num=num); print("Training Graph loaded")
 
     logdir = hp.logdir + "-" + str(num)
-    sv = tf.train.Supervisor(logdir=logdir, save_model_secs=0, global_step=g.global_step)
+    sv = tf.train.Supervisor(logdir=logdir, save_model_secs=0)
+            #, global_step=g.global_step)
+
     with sv.managed_session() as sess:
+        if num==1:
+            sv.saver.restore(sess, tf.train.latest_checkpoint(hp.logdir + "-" + str(num)))
         while 1:
-            progress_bar = tqdm(range(g.num_batch), desc="It", total=g.num_batch, ncols=70, leave=False, unit='b')
+            #progress_bar = tqdm(range(g.num_batch), desc="It", total=g.num_batch, ncols=70, leave=False, unit='b')
+            progress_bar = tqdm(range(g.num_batch), desc="It", total=g.num_batch, leave=False, unit='b')
             for _ in progress_bar:
                 gs, _ = sess.run([g.global_step, g.train_op])
 
@@ -158,9 +163,14 @@ if __name__ == '__main__':
                         plot_alignment(alignments[0], str(gs // 1000).zfill(3) + "k", logdir)
 
                 progress_bar.set_description("It: %d" % (gs))
-                progress_bar.refresh() 
+                progress_bar.refresh()
+                #print("gs is", gs)
+                #print("hp.num_iterations",hp.num_iterations)
                 # break
-                if gs > hp.num_iterations: break
+                if num==1:
+                    if gs > hp.num_iterations+670000: break
+                if num==2:
+                    if gs > 49000: break
             #print("Step: %r" % gs)
 
     print("Done")
