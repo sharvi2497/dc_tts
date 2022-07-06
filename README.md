@@ -7,9 +7,6 @@ Check requirements.txt. You can run the synthesizer on either a GPU or a CPU mac
 
 ## Data
 
-<img src="https://image.shutterstock.com/z/stock-vector-korean-alphabet-korean-hangul-pattern-693680611.jpg" height="200" align="right">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Kate_Winslet_March_18%2C_2014_%28headshot%29.jpg/890px-Kate_Winslet_March_18%2C_2014_%28headshot%29.jpg" height="200" align="right">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Nick_Offerman_at_UMBC_%28cropped%29.jpg/440px-Nick_Offerman_at_UMBC_%28cropped%29.jpg" height="200" align="right">
 <img src="https://image.shutterstock.com/z/stock-vector-lj-letters-four-colors-in-abstract-background-logo-design-identity-in-circle-alphabet-letter-418687846.jpg" height="200" align="right">
 
 I train English models on public speech datasets. <p> [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/) <br/> 
