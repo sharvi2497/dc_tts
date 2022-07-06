@@ -4,6 +4,7 @@
 import os
 import sounddevice
 import soundfile
+import time
 from hyperparams import Hyperparams as hp
 from synthesize import Synthesizer
 
@@ -23,6 +24,8 @@ if __name__ == "__main__":
 		utterance = raw_input("Enter an utterance: ")
 		if not utterance:
 			break
+		current_time = time.strftime("%Y:%m:%d-%H:%M:%S")
+		filename = f'utterance-{current_time}.wav'	
 		synthesizer.synthesize(utterance, filename)
 		print("Utterance saved in %s" % filename)
 		playsound(filename)
