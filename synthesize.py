@@ -10,20 +10,20 @@ from __future__ import print_function
 
 import os
 
-from hyperparams import Hyperparams as hp
+from dc_tts.hyperparams import Hyperparams as hp
 import numpy as np
 import tensorflow as tf
 import nltk.data
-from train import Graph
-from utils import *
-from data_load import load_data
-from data_load import load_vocab
-from data_load import text_normalize
+from dc_tts.train import Graph
+from dc_tts.utils import *
+from dc_tts.data_load import load_data
+from dc_tts.data_load import load_vocab
+from dc_tts.data_load import text_normalize
 from scipy.io.wavfile import write
 from tqdm import tqdm
 import nltk.data
 import nltk
-from text import _clean_text 
+from dc_tts.text import _clean_text 
 
 class Synthesizer():
     def __init__(self, checkpoint_text2mel, checkpoint_ssrn):
