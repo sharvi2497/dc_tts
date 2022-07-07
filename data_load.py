@@ -7,10 +7,10 @@ https://www.github.com/kyubyong/dc_tts
 
 from __future__ import print_function
 
-from hyperparams import Hyperparams as hp
+from dc_tts.hyperparams import Hyperparams as hp
 import numpy as np
 import tensorflow as tf
-from utils import *
+from dc_tts.utils import *
 import codecs
 import re
 import os
