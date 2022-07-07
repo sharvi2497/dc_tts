@@ -8,7 +8,7 @@ params:
 
 import sounddevice
 import soundfile
-from synthesize import Synthesizer
+from dc_tts.synthesize import Synthesizer
 import time
 
 
