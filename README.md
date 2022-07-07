@@ -31,7 +31,7 @@ You can do STEP 2 and 3 at the same time, if you have more than one gpu card.
 
 The training has been done and the pretrained models are available on Zimmer (~/projects/accented-synthetic-speech-generation/dc_tts/saved_models)
 
-Follow the synthesis steps provided below to generate utterances.
+For speech synthesis, place the latest checkpoint from `logdir` folder to `models` folder under respective `LJ01-1` and `LJ01-2` folders.
 
 ## Fine-tuning 
 
@@ -41,7 +41,7 @@ Follow the synthesis steps provided below to generate utterances.
   * STEP 3. Run `python train.py 1` for training Text2Mel for ~670k iterations. 
   * STEP 4. Run `python train.py 2` for training SSRN for ~49k iterations.
   
-Follow the synthesis steps provided below to generate utterances. 
+For speech synthesis, place the latest checkpoint from `logdir` folder to `models` folder under respective `LJ01-1` and `LJ01-2` folders.
 
 ## Training Curves
 
@@ -50,11 +50,6 @@ Follow the synthesis steps provided below to generate utterances.
 ## Attention Plot
 <img src="fig/attention.gif">
 
-## Sample Synthesis
-
-  * Place the latest checkpoint from `logdir` folder to `models` folder under respective `LJ01-1` and `LJ01-2` folders.
-  * Update checkpoints path in `synthesize_examples.py` and then run `python synthesize_examples.py` for custom input.
-  * To generate speech samples based on [Harvard Sentences](http://www.cs.columbia.edu/~hgs/audio/harvard.html) as the original paper does, run `synthesize.py` and check the files in `samples`.
 
 ## Generated Samples
 
