@@ -26,10 +26,21 @@ The training has been done and the pretrained models are available on Zimmer (~/
 
   * STEP 0. Download [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/) or prepare your own data and place it inside the `dataset` folder.
   * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py`.
-  * STEP 2. Run `python train.py 1` for training Text2Mel. (If you set prepro True, run python prepro.py first)
+  * STEP 2. Run `python train.py 1` for training Text2Mel. 
   * STEP 3. Run `python train.py 2` for training SSRN.
 
 You can do STEP 2 and 3 at the same time, if you have more than one gpu card.
+Follow the synthesis steps provided below to generate utterances.
+
+## Fine-tuning 
+
+  * STEP 0. Prepare the data of the accented speaker in the same format as LJ Speech dataset. The audio of the speaker ideally should be ~1.5-2 hours long. Place the datas inside the `dataset` folder.
+  * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py`.
+  * STEP 2. Copy the saved `LJ01-1` folder from pretrained model path and to `LJ01-1` in `logdir` folder.  
+  * STEP 3. Run `python train.py 1` for training Text2Mel for ~670k iterations. 
+  * STEP 4. Run `python train.py 2` for training SSRN for ~49k iterations.
+  
+Follow the synthesis steps provided below to generate utterances. 
 
 ## Training Curves
 
