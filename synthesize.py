@@ -115,7 +115,7 @@ class Synthesizer():
         return join(chunks)
 
     def encode_text(self, text):
-        if type(text) is not unicode:
+        if type(text) is not str:
             text = text.decode('utf-8')
 
         lines = text.splitlines()
@@ -124,7 +124,7 @@ class Synthesizer():
         for line in lines:
             sents.extend(self._sent_detector.tokenize(line.strip()))
         
-        norm_sents = [text_normalize(_clean_text(sent, ['english_cleaners']).decode('utf-8')).strip() for sent in sents]
+        norm_sents = [text_normalize(_clean_text(sent, ['english_cleaners'])).strip() for sent in sents]
 
         final_sents = []
 
