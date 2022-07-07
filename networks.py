@@ -7,8 +7,8 @@ https://www.github.com/kyubyong/dc_tts
 
 from __future__ import print_function
 
-from hyperparams import Hyperparams as hp
-from modules import *
+from dc_tts.hyperparams import Hyperparams as hp
+from dc_tts.modules import *
 import tensorflow as tf
 
 def TextEnc(L, training=True):
