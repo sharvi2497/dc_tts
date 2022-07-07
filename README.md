@@ -1,22 +1,31 @@
-# A TensorFlow Implementation of DC-TTS: yet another text-to-speech model
+# A TensorFlow Implementation of DC-TTS: text-to-speech model
 
-I implement yet another text-to-speech model, dc-tts, introduced in [Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention](https://arxiv.org/abs/1710.08969). My goal, however, is not just replicating the paper. Rather, I'd like to gain insights about various sound projects.
+It is the implementation of text-to-speech model, dc-tts, introduced in [Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention](https://arxiv.org/abs/1710.08969). 
 
 ## Requirements
-Check requirements.txt. You can run the synthesizer on either a GPU or a CPU machine. In the later case, you'll need to install requirements_cpu.txt.
+
+Installing the requirements.
+```
+## For GPU machine
+pip install -r requirements.txt
+
+## For CPU machine
+pip install -r requirements_cpu.txt
+```
 
 ## Data
 
 <img src="https://image.shutterstock.com/z/stock-vector-lj-letters-four-colors-in-abstract-background-logo-design-identity-in-circle-alphabet-letter-418687846.jpg" height="200" align="right">
 
-I train English models on public speech datasets. <p> [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/) <br/> 
-
-LJ Speech Dataset is recently widely used as a benchmark dataset in the TTS task because it is publicly available, and it has 24 hours of reasonable quality samples.
+The English TTS is trained on public speech dataset, [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/). LJ Speech Dataset is recently widely used as a benchmark dataset in the TTS task because it is publicly available, and it has 24 hours of reasonable quality samples.
 
 
 ## Training
-  * STEP 0. Download [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/) or prepare your own data.
-  * STEP 1. Adjust hyper parameters in `hyperparams.py`. (If you want to do preprocessing, set prepro True`.
+
+The training has been done and the pretrained models are available on Zimmer (~/projects/accented-synthetic-speech-generation/dc_tts/saved_models)
+
+  * STEP 0. Download [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/) or prepare your own data and place it inside the `dataset` folder.
+  * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py`.
   * STEP 2. Run `python train.py 1` for training Text2Mel. (If you set prepro True, run python prepro.py first)
   * STEP 3. Run `python train.py 2` for training SSRN.
 
@@ -32,7 +41,9 @@ You can do STEP 2 and 3 at the same time, if you have more than one gpu card.
 ## Sample Synthesis
 I generate speech samples based on [Harvard Sentences](http://www.cs.columbia.edu/~hgs/audio/harvard.html) as the original paper does. It is already included in the repo.
 
-  * Run `synthesize.py` and check the files in `samples`.
+  * Place the latest checkpoint from `logdir` folder to `models` folder under respective LJ01-1 and LJ01-2 folders.
+  * Update checkpoints path in synthesize_examples.py and then run `python synthesize_examples.py` for custom input.
+  * Or run `synthesize.py` and check the files in `samples`.
 
 ## Generated Samples
 
@@ -40,10 +51,6 @@ I generate speech samples based on [Harvard Sentences](http://www.cs.columbia.ed
 | :----- |:-------------|
 | LJ      | [50k](https://soundcloud.com/kyubyong-park/sets/dc_tts) [200k](https://soundcloud.com/kyubyong-park/sets/dc_tts_lj_200k) [310k](https://soundcloud.com/kyubyong-park/sets/dc_tts_lj_310k) [800k](https://soundcloud.com/kyubyong-park/sets/dc_tts_lj_800k)|
  
-
-## Pretrained Model for LJ
-
-Download [this](https://www.dropbox.com/s/1oyipstjxh2n5wo/LJ_logdir.tar?dl=0).
 
 ## Notes
 
