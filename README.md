@@ -23,7 +23,7 @@ The English TTS is trained on public speech dataset, [LJ Speech Dataset](https:/
 ## Training
 
   * STEP 0. Download [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/) or prepare your own data and place it inside the `dataset` folder.
-  * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py`.
+  * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py` to create `mels` and `mags` folders. Make sure to delete these folders if they already exist from prior data before running `prepo.py`.
   * STEP 2. Run `python train.py 1` for training Text2Mel. 
   * STEP 3. Run `python train.py 2` for training SSRN.
 
@@ -36,7 +36,7 @@ Follow the synthesis steps provided below to generate utterances.
 ## Fine-tuning 
 
   * STEP 0. Prepare the data of the accented speaker in the same format as LJ Speech dataset. The audio of the speaker ideally should be ~1.5-2 hours long. Place the data inside the `dataset` folder.
-  * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py`.
+  * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py` to create `mels` and `mags` folders. Make sure to delete these folders if they already exist from prior data before running `prepo.py`.
   * STEP 2. Copy the saved `LJ01-1` folder from pretrained model path and to `LJ01-1` in `logdir` folder.  
   * STEP 3. Run `python train.py 1` for training Text2Mel for ~670k iterations. 
   * STEP 4. Run `python train.py 2` for training SSRN for ~49k iterations.
@@ -51,11 +51,10 @@ Follow the synthesis steps provided below to generate utterances.
 <img src="fig/attention.gif">
 
 ## Sample Synthesis
-I generate speech samples based on [Harvard Sentences](http://www.cs.columbia.edu/~hgs/audio/harvard.html) as the original paper does. It is already included in the repo.
 
-  * Place the latest checkpoint from `logdir` folder to `models` folder under respective LJ01-1 and LJ01-2 folders.
-  * Update checkpoints path in synthesize_examples.py and then run `python synthesize_examples.py` for custom input.
-  * Or run `synthesize.py` and check the files in `samples`.
+  * Place the latest checkpoint from `logdir` folder to `models` folder under respective `LJ01-1` and `LJ01-2` folders.
+  * Update checkpoints path in `synthesize_examples.py` and then run `python synthesize_examples.py` for custom input.
+  * To generate speech samples based on [Harvard Sentences](http://www.cs.columbia.edu/~hgs/audio/harvard.html) as the original paper does, run `synthesize.py` and check the files in `samples`.
 
 ## Generated Samples
 
