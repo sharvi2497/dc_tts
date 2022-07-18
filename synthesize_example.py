@@ -13,8 +13,8 @@ import time
 
 
 # default values
-CHECKPOINT_TEXT2MEL = "models/LJ01-1/model_gs_2280k"
-CHECKPOINT_SSRN = "models/LJ01-2/model_gs_132k"
+CHECKPOINT_TEXT2MEL = "dc_tts/models/LJ01-1/model_gs_2280k"
+CHECKPOINT_SSRN = "dc_tts/models/LJ01-2/model_gs_132k"
 
 
 def playsound(filename: str):
