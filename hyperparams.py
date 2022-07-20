@@ -34,7 +34,7 @@ class Hyperparams:
     # data
     #data = "/data/private/voice/LJSpeech-1.0"
     data = "dataset/welsh_english_male"
-    test_data = 'harvard_sentences.txt'
+    test_data = 'test_set/harvard_sentences.txt'
     #vocab = "PE abcdefghijklmnopqrstuvwxyz'.?" # P: Padding, E: EOS.
     # The following won't work if we want to resume training from the
     # pretrained models. In order for it to work we'd have to restart
