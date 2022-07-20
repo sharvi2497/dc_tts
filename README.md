@@ -37,9 +37,9 @@ For speech synthesis, place the latest checkpoint from `logdir` folder to `model
 
   * STEP 0. Prepare the data of the accented speaker in the same format as LJ Speech dataset. The audio of the speaker ideally should be ~1.5-2 hours long. Place the data inside the `dataset` folder.
   * STEP 1. Adjust hyper parameters in `hyperparams.py`. Run `python prepo.py` to create `mels` and `mags` folders. Make sure to delete these folders if they already exist from prior data before running `prepo.py`.
-  * STEP 2. Copy the saved `LJ01-1` folder from pretrained model path and to `LJ01-1` in `logdir` folder.  
-  * STEP 3. Run `python train.py 1` for training Text2Mel for ~670k iterations. 
-  * STEP 4. Run `python train.py 2` for training SSRN for ~49k iterations.
+  * STEP 2. Copy the latest checkpoint for Text2Mel network from pretrained model path (inside LJ01-1 folder) to `LJ01-1` in `logdir` folder.  
+  * STEP 3. Run `python train.py 1` for training Text2Mel for ~670k iterations to continue training on top of pretrained model.
+  * STEP 4. Run `python train.py 2` for training SSRN for ~49k iterations to synthesize voice for that particular speaker.
   
 For speech synthesis, place the latest checkpoint from `logdir` folder to `models` folder under respective `LJ01-1` and `LJ01-2` folders.
 
