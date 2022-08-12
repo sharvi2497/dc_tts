@@ -10,20 +10,20 @@ from __future__ import print_function
 
 import os
 
-from dc_tts.hyperparams import Hyperparams as hp
+from hyperparams import Hyperparams as hp
 import numpy as np
 import tensorflow as tf
 import nltk.data
-from dc_tts.train import Graph
-from dc_tts.utils import *
-from dc_tts.data_load import load_data
-from dc_tts.data_load import load_vocab
-from dc_tts.data_load import text_normalize
+from train import Graph
+from utils import *
+from data_load import load_data
+from data_load import load_vocab
+from data_load import text_normalize
 from scipy.io.wavfile import write
 from tqdm import tqdm
 import nltk.data
 import nltk
-from dc_tts.text import _clean_text 
+from text import _clean_text 
 
 class Synthesizer():
     def __init__(self, checkpoint_text2mel, checkpoint_ssrn):
@@ -37,28 +37,16 @@ class Synthesizer():
         self._sess = tf.Session()
         self._sess.run(tf.global_variables_initializer())
         # Restore text2mel
-        #var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'Text2Mel')
-        #saver1 = tf.train.Saver(var_list=var_list)
-        # https://stackoverflow.com/questions/41265035/tensorflow-why-there-are-3-files-after-saving-the-model
         var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'Text2Mel')
         saver1 = tf.train.Saver(var_list=var_list)
         saver1.restore(self._sess, self._checkpoint_text2mel)
 
-        #saver1 = tf.train.import_meta_graph(self._checkpoint_text2mel + ".meta")
-        #saver1.restore(self._sess, self._checkpoint_text2mel)
-
         # Restore ssrn
-        #var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'SSRN') + \
-        #           tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'gs')
-        #saver2 = tf.train.Saver(var_list=var_list)
         var_list = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'SSRN') + \
                    tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, 'gs')
         saver2 = tf.train.Saver(var_list=var_list)
         saver2.restore(self._sess, self._checkpoint_ssrn)
-        
-        #saver2 = tf.train.import_meta_graph(self._checkpoint_ssrn + ".meta")        
-        #saver2.restore(self._sess, self._checkpoint_ssrn)
-        
+          
         self._char2idx, self._idx2char = load_vocab()
 
         # Make sure NLTK has the necessary data:
@@ -146,7 +134,7 @@ class Synthesizer():
         
         return texts        
 
-    def synthesize(self, text, filename_wav):
+    def synthesize_utterance(self, text, filename_wav):
         L = self.encode_text(text)
         Y = np.zeros((len(L), hp.max_T, hp.n_mels), np.float32)
         prev_max_attentions = np.zeros((len(L),), np.int32)
@@ -175,6 +163,30 @@ class Synthesizer():
                 wav_total = tmp
 
         write(filename_wav, hp.sr, wav_total)
+
+    def synthesize_samples(self):
+        # Load data
+        L = load_data("synthesize")
+
+        Y = np.zeros((len(L), hp.max_T, hp.n_mels), np.float32)
+        prev_max_attentions = np.zeros((len(L),), np.int32)
+        for j in tqdm(range(hp.max_T)):
+            _gs, _Y, _max_attentions, _alignments = \
+                self._sess.run([self._graph.global_step, self._graph.Y, self._graph.max_attentions, self._graph.alignments],
+                         {self._graph.L: L,
+                          self._graph.mels: Y,
+                          self._graph.prev_max_attentions: prev_max_attentions})
+            Y[:, j, :] = _Y[:, j, :]
+            prev_max_attentions = _max_attentions[:, j]        
+        # Get magnitude
+        Z = self._sess.run(self._graph.Z, {self._graph.Y: Y})
+
+        # Generate wav files
+        if not os.path.exists(hp.sampledir): os.makedirs(hp.sampledir)
+        for i, mag in enumerate(Z):
+            print("Working on file", i+1)
+            wav = spectrogram2wav(mag)
+            write(hp.sampledir + "/{}.wav".format(i+1), hp.sr, wav)
 
 def synthesize():
     # Load data
@@ -221,8 +233,34 @@ def synthesize():
             wav = spectrogram2wav(mag)
             write(hp.sampledir + "/{}.wav".format(i+1), hp.sr, wav)
 
+# Claudia
+#CHECKPOINT_TEXT2MEL = "models/LJ01-1/model_gs_2726k"
+#CHECKPOINT_SSRN = "models/LJ01-2/model_gs_058k"
+
+# Carolin
+#CHECKPOINT_TEXT2MEL = "models/LJ01-1/model_gs_2728k"
+#CHECKPOINT_SSRN = "models/LJ01-2/model_gs_049k"
+
+#Scottish Male
+#CHECKPOINT_TEXT2MEL = "models/LJ01-1/model_gs_2763k"
+#CHECKPOINT_SSRN = "models/LJ01-2/model_gs_057k"
+
+# Welsh male
+#CHECKPOINT_TEXT2MEL = "models/LJ01-1/model_gs_2658k"
+#CHECKPOINT_SSRN = "models/LJ01-2/model_gs_049k"
+
+# Indian male
+#CHECKPOINT_TEXT2MEL = "models/LJ01-1/model_gs_2280k"
+#CHECKPOINT_SSRN = "models/LJ01-2/model_gs_132k"
+
 if __name__ == '__main__':
-    synthesize()
+
+    # Generate audio samples by loading model from checkpoint path above
+    synthesizer = Synthesizer(CHECKPOINT_TEXT2MEL, CHECKPOINT_SSRN)
+    synthesizer.synthesize_samples()
+
+    # Or
+
+    # Generate audio samples from latest model checkpoint - useful to check outputs while model training
+    #synthesize()
     print("Done")
-
-
